@@ -8,6 +8,8 @@ const app = express();
 
 const port = 8080; //process.env.PORT;
 
+app.use(express.json());
+
 app.use('/api/movies', moviesRouter);
 
 app.listen(port, () => {
