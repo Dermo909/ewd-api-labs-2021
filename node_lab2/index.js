@@ -3,6 +3,7 @@ import './seedData';
 import express from 'express';
 import moviesRouter from './api/movies';
 import genresRouter from './api/genres';
+import usersRouter from './api/users';
 import swaggerUi from 'swagger-ui-express';
 import yaml from 'js-yaml';
 import fs from 'fs';
@@ -25,7 +26,8 @@ app.use('/api/movies', moviesRouter);
 app.use('/api/genres', genresRouter);
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(errorHandler);
-
+//Users router
+app.use('/api/users', usersRouter);
 app.listen(port, () => {
   console.info(`Server running at ${port}`);
 });

@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
 });
 
 // Get movie details
-router.get('/:id', async (req, res) => {
+router.get('/:id', asyncHandler(async (req, res) => {
     const id = req.params.id;
     const movie = await movieModel.findById(id).exec();
     if (movie) {
@@ -30,5 +30,5 @@ router.get('/:id', async (req, res) => {
     } else {
         res.status(404).json(NotFound);
     }
-});
+}));
 export default router;
