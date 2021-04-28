@@ -1,4 +1,5 @@
 import './api/db';
+import './seedData';
 import express from 'express';
 import moviesRouter from './api/movies';
 import genresRouter from './api/genres';
