@@ -1,7 +1,9 @@
 import userModel from '../api/users/userModel';
 import movieModel from '../api/movies/movieModel';
+import genreModel from '../api/genres/genreModel';
 import { movies } from './movies';
 import { users } from './users';
+import { genres } from './genres';
 
 // deletes all user documents in collection and inserts test data
 async function loadUsers() {
@@ -27,7 +29,19 @@ async function loadMovies() {
   }
 }
 
+// Load genres
+async function loadGenres() {
+  try {
+    await genreModel.deleteMany();
+    await genreModel.collection.insertMany(genres);
+    console.info(`${genres.length} Genres were successfully stored.`);
+  } catch (err) {
+    console.error(`failed to Load Genre Data: ${err}`);
+  }
+}
+
 if (process.env.seedDb) {
   loadUsers();
   loadMovies();
+  loadGenres();
 }
