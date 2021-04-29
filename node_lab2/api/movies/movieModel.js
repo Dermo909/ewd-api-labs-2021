@@ -50,4 +50,8 @@ MovieSchema.statics.findByMovieDBId = id => {
   return this.findOne({ id: id });
 };
 
+MovieSchema.methods.addReview = function (review) {
+    this.reviews.push(review);
+    return this.save(); //VERY IMPORTANT. MUST CALL SAVE() TO STORE IN DB.
+};
 export default mongoose.model('Movie', MovieSchema);
