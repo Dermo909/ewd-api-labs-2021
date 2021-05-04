@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 
 const Schema = mongoose.Schema;
 
@@ -22,4 +23,29 @@ UserSchema.methods.addFavourite = function (movieId) {
     return this.save(); //VERY IMPORTANT. MUST CALL SAVE() TO STORE IN DB.
 };
 
+UserSchema.methods.comparePassword = function (passw, callback) {
+    bcrypt.compare(passw, this.password, (err, isMatch) => {
+        if (err) {
+            return callback(err);
+        }
+        callback(null, isMatch);
+    });
+};
+
+UserSchema.pre('save', function (next) {
+    const user = this;
+    if (this.isModified('password') || this.isNew) {
+        bcrypt.hash(user.password, 10, (err, hash) => {
+            if (err) {
+                return next(err);
+            }
+            console.log(hash);
+            user.password = hash;
+            next();
+        });
+    }
+    else {
+        return next();
+    }
+});
 export default mongoose.model('User', UserSchema);

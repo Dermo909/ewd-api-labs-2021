@@ -1,9 +1,9 @@
 import express from 'express';
 import User from './userModel';
-import { NotFound } from './../../responses';
 import asyncHandler from 'express-async-handler';
 import Movie from './../movies/movieModel';
-
+import jwt from 'jsonwebtoken';
+import { NotFound, Unauthorised, CreatedResource } from './../../responses';
 const router = express.Router();
 
 // Get all users
@@ -29,9 +29,38 @@ router.put('/:id', asyncHandler(async (req, res) => {
 }));
 
 // register a user (notice the asyncHandler(...)!!! )
+// router.post('/', asyncHandler(async (req, res) => {
+//     await new User(req.body).save();
+//     res.status(200).json({ success: true, token: "FakeTokenForNow" });
+// }));
+
+// Register/login a user
 router.post('/', asyncHandler(async (req, res) => {
-    await new User(req.body).save();
-    res.status(200).json({ success: true, token: "FakeTokenForNow" });
+    if (req.query.action === 'register') {
+        await User.create({
+            username: req.body.username,
+            password: req.body.password,
+        });
+        res.status(201).json(CreatedResource);
+    } else {
+        const user = await User.findByUserName(req.body.username);
+        if (!user) return res.status(401).json(Unauthorised);
+        user.comparePassword(req.body.password, (err, isMatch) => {
+            if (isMatch && !err) {
+                // if user is found and password is right create a token
+                const token = jwt.sign(user.username, process.env.secret);
+                // return the information including token as JSON
+                res.status(200).json({
+                    status_message: "Success",
+                    status_code: 200,
+                    token: 'BEARER ' + token,
+                });
+            } else {
+                res.status(401).send(Unauthorised);
+            }
+        });
+
+    }
 }));
 
 router.post('/:userName/favourites', asyncHandler(async (req, res) => {
