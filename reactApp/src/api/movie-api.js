@@ -19,3 +19,14 @@ export const signup = async (username, password) => {
     })
     return res.json();
 };
+
+export const getMovies = async () => {
+    const res = await fetch(
+        '/api/movies', {
+            headers: {
+                'Authorization': window.localStorage.getItem('token')
+            }
+    }
+    )
+    return res.json();
+};
