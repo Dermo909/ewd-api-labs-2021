@@ -9,6 +9,7 @@ import yaml from 'js-yaml';
 import fs from 'fs';
 import 'dotenv/config';
 import { ServerError } from './responses';
+import passport from './api/authenticate';
 
 const app = express();
 const port = process.env.PORT;
@@ -22,12 +23,18 @@ const errorHandler = (err, req, res, next) => {
 
 app.use(express.json());
 
-app.use('/api/movies', moviesRouter);
+// initialise passport
+app.use(passport.initialize());
+// Add passport.authenticate(..)  to middleware stack for protected routes​
+app.use('/api/movies', passport.authenticate('jwt', {session: false}), moviesRouter);
+
+//app.use('/api/movies', moviesRouter);
 app.use('/api/genres', genresRouter);
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(errorHandler);
 //Users router
 app.use('/api/users', usersRouter);
+
 app.listen(port, () => {
   console.info(`Server running at ${port}`);
 });
