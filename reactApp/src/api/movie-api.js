@@ -1,4 +1,6 @@
 export const login = async (username, password) => {
+    console.log('username: ', username);
+    console.log('password: ', password);
     const res = await fetch('/api/users', {
         headers: {
             'Content-Type': 'application/json'

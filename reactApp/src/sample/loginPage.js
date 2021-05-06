@@ -9,6 +9,9 @@ const LoginPage = props => {
   const [password, setPassword] = useState("");
 
   const login = () => {
+    console.log('context: ', context);
+    console.log('userName: ', userName);
+    console.log('password: ', password);
     context.authenticate(userName, password);
   };
 
