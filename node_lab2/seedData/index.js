@@ -1,9 +1,11 @@
 import userModel from '../api/users/userModel';
 import movieModel from '../api/movies/movieModel';
 import genreModel from '../api/genres/genreModel';
+import castAndCrewModel from '../api/castAndCrew/castAndCrewModel';
 import { movies } from './movies';
 import { users } from './users';
 import { genres } from './genres';
+import { castAndCrew } from './castAndCrew';
 
 // deletes all user documents in collection and inserts test data
 // async function loadUsers() {
@@ -49,8 +51,20 @@ async function loadGenres() {
   }
 }
 
+// Load cast and crew
+async function loadCastAndCrew() {
+  try {
+    await castAndCrewModel.deleteMany();
+    await castAndCrewModel.collection.insertMany(castAndCrew);
+    console.info(`${castAndCrewModel.length} Cast and crew were successfully stored.`);
+  } catch (err) {
+    console.error(`failed to Load cast and crew Data: ${err}`);
+  }
+}
+
 if (process.env.seedDb) {
   loadUsers();
-  loadMovies();
+  // loadMovies();
   loadGenres();
+  loadCastAndCrew();
 }

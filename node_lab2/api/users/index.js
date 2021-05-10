@@ -37,7 +37,6 @@ router.put('/:id', asyncHandler(async (req, res) => {
 // Register/login a user
 router.post('/', asyncHandler(async (req, res) => {
     if (req.query.action === 'register') {
-        console.log('Registering in API');
         await User.create({
             username: req.body.username,
             password: req.body.password,

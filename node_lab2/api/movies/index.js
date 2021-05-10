@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
 
-    let { page = 1, limit = 4 } = req.query; // destructure page and limit and set default values
+    let { page = 1, limit = 20 } = req.query; // destructure page and limit and set default values
     [page, limit] = [+page, +limit]; //trick to convert to numeric (req.query will contain string values)
 
     const totalDocumentsPromise = movieModel.estimatedDocumentCount(); //Kick off async calls
@@ -24,12 +24,16 @@ router.get('/', async (req, res) => {
 
 // Get movie details
 router.get('/:id', asyncHandler(async (req, res) => {
+    console.log('Getting movie id: ', req.params.id);
     const id = req.params.id;
+
     const movie = await movieModel.findById(id).exec();
     if (movie) {
+        console.log('Found movie');
         res.status(200).json(movie);
     } else {
         res.status(404).json(NotFound);
+        console.log('Movie not found');
     }
 }));
 
