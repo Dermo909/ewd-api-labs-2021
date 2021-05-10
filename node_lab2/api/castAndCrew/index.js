@@ -1,5 +1,5 @@
 import express from 'express';
-import { CastAndCrewModel } from './castAndCrewModel';
+import CandCModel from './castAndCrewModel';
 import asyncHandler from 'express-async-handler';
 import { NotFound } from './../../responses';
 
@@ -9,7 +9,8 @@ const router = express.Router();
 router.get('/:id', asyncHandler(async (req, res) => {
     console.log('Getting cast and crew for movie: ', req.params.id);
 
-    const castAndCrew = await CastAndCrewModel.findById(req.params.id).exec();
+    // const castAndCrew = await CastAndCrewModel.findById(req.params.id).exec();
+    const castAndCrew = await CandCModel.findByMovieDBId(req.params.id);
     if (castAndCrew) {
         console.log('Found cast and crew');
         res.status(200).json(castAndCrew);

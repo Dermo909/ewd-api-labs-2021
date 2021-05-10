@@ -32,4 +32,9 @@ const CastAndCrewSchema = new Schema({
     }]
 });
 
+CastAndCrewSchema.statics.findByMovieDBId = id => {
+    const model = mongoose.model('CastAndCrewModel');
+    return model.findOne({ id: id });
+};
+
 export default mongoose.model('CastAndCrewModel', CastAndCrewSchema);
