@@ -29,7 +29,7 @@ router.get('/:id', asyncHandler(async (req, res) => {
 
     const movie = await movieModel.findById(id).exec();
     if (movie) {
-        console.log('Found movie');
+        //console.log('Found movie: ', movie);
         res.status(200).json(movie);
     } else {
         res.status(404).json(NotFound);
@@ -47,10 +47,14 @@ router.get('/:id/reviews', asyncHandler(async (req, res, next) => {
 }));
 
 router.post('/:id/reviews', asyncHandler(async (req, res) => {
-    const newReview = req.body;
-    const id = req.params.id;
-
+    const newReview = req.body.review;
+    const id = req.body.review.movieId;
+    console.log('POST Adding review to movie: ', req.body.review);
+    console.log('POST Adding review to movie id: ', id);
+    console.log('POST Adding review newReview.content: ', newReview.content);
+    console.log('POST Adding review newReview: ', newReview);
     if (newReview && newReview.content) {
+        console.log('looking for movie id');
         //kick off both async calls at the same time
         const moviePromise = Movie.findById(id);
         //wait for both promises to return before continuing
@@ -58,7 +62,15 @@ router.post('/:id/reviews', asyncHandler(async (req, res) => {
 
         //This wont execute until both the above promises are fulfilled.
         if (movie) {
-            await movie.addReview(newReview);
+            console.log('foudn movie, adding review');
+            const review = { 
+                author: newReview.author,
+                content: newReview.content,
+                created_at: new Date(),
+                updated_at: new Date()
+            };
+            
+            await movie.addReview(review);
             res.status(201).json(movie);
         }
         else {

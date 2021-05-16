@@ -7,8 +7,12 @@ const UserSchema = new Schema({
     username: { type: String, unique: true, required: true },
     password: { type: String, required: true },
     favourites: [{
-        type: mongoose.Schema.Types.ObjectId, //NEW: ADD A FAVOURITES FIELD
-        ref: 'Movie', unique: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Movie'
+    }],
+    watchlist: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Movie'
     }]
 });
 
@@ -21,6 +25,11 @@ UserSchema.statics.findByUserName = function (username) {
 UserSchema.methods.addFavourite = function (movieId) {
     this.favourites.push(movieId);
     return this.save(); //VERY IMPORTANT. MUST CALL SAVE() TO STORE IN DB.
+};
+
+UserSchema.methods.addWatchlist = function (movieId) {
+    this.watchlist.push(movieId);
+    return this.save(); 
 };
 
 UserSchema.methods.comparePassword = function (passw, callback) {

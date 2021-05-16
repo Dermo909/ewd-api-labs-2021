@@ -4,9 +4,9 @@ const Schema = mongoose.Schema;
 
 const MovieReviewSchema = {
   author: { type: String },
-  content: { type: String },
-  created_at: {type: Date},
-  updated_at: {type: Date}
+  content: { type: String }
+  // ,created_at: {type: Date},
+  // updated_at: {type: Date}
 };
 
 const GenresSchema = {
@@ -51,6 +51,7 @@ MovieSchema.statics.findByMovieDBId = id => {
 };
 
 MovieSchema.methods.addReview = function (review) {
+  console.log('pushing review: ', review);
     this.reviews.push(review);
     return this.save(); //VERY IMPORTANT. MUST CALL SAVE() TO STORE IN DB.
 };
