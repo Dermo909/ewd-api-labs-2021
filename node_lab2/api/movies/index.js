@@ -70,9 +70,21 @@ router.post('/:id/reviews', asyncHandler(async (req, res) => {
                 rating: newReview.rating
             };
             console.log('found movie, creating review: ', review);
-            await reviewModel.create(review);
-            await movie.addReview(review.movieId);
-            res.status(201).json(movie);
+            //await reviewModel.create(review);
+            let id = '';
+
+            await reviewModel.create(review, (err, r) => {
+                console.log('Newly created review _id: ', r);
+                id = r._id;
+
+                movie.addReview(id, (err, r) => {
+                    res.status(201).json(r);
+                });
+                
+              });
+            console.log('Adding review to movie:', id);
+            // await movie.addReview(id);
+            // res.status(201).json(movie);
         }
         else {
             res.status(404).json(NotFound);
