@@ -71,7 +71,7 @@ router.post('/:id/reviews', asyncHandler(async (req, res) => {
             };
             console.log('found movie, creating review: ', review);
             await reviewModel.create(review);
-            await movie.addReview(review);
+            await movie.addReview(review.movieId);
             res.status(201).json(movie);
         }
         else {
