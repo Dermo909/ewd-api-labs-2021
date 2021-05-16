@@ -33,7 +33,9 @@ async function loadUsers() {
 async function loadMovies() {
   try {
     await movieModel.deleteMany();
-    await movieModel.collection.insertMany(movies);
+    // await movieModel.collection.insertMany(movies);
+    // await movieModel.collection.drop();
+    movies.forEach(movie =>  movieModel.create(movie));
     console.info(`${movies.length} Movies were successfully stored.`);
   } catch (err) {
     console.error(`failed to Load movie Data: ${err}`);
@@ -64,7 +66,7 @@ async function loadCastAndCrew() {
 
 if (process.env.seedDb) {
   loadUsers();
-  // loadMovies();
+  loadMovies();
   loadGenres();
   loadCastAndCrew();
 }

@@ -2,19 +2,14 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-const MovieReviewSchema = {
-  author: { type: String },
-  content: { type: String }
-  // ,created_at: {type: Date},
-  // updated_at: {type: Date}
-};
-
 const GenresSchema = {
   id: { type: Number },
   Name: { type: String }
 };
 
+
 const MovieSchema = new Schema({
+  id: { type: Number },
   adult: { type: Boolean },
   belongs_to_collection: { type: String },
   budget: { type: Number },
@@ -36,7 +31,9 @@ const MovieSchema = new Schema({
     iso_3166_1: { type: String },
     name: { type: String }
   }],
-  reviews: [MovieReviewSchema],
+  reviews: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Review'}],
   runtime: { type: Number },
   spoken_languages: [{
     iso_639_1: { type: String },
@@ -50,9 +47,9 @@ MovieSchema.statics.findByMovieDBId = id => {
   return this.findOne({ id: id });
 };
 
-MovieSchema.methods.addReview = function (review) {
-  console.log('pushing review: ', review);
-    this.reviews.push(review);
+MovieSchema.methods.addReview = function (reviewId) {
+  console.log('pushing reviewId: ', reviewId);
+    this.reviews.push(reviewId);
     return this.save(); //VERY IMPORTANT. MUST CALL SAVE() TO STORE IN DB.
 };
 export default mongoose.model('Movie', MovieSchema);

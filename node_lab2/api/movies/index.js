@@ -1,5 +1,6 @@
 import express from 'express';
 import movieModel from './movieModel';
+import reviewModel from '../reviews/reviewModel';
 import asyncHandler from 'express-async-handler';
 import { NotFound } from './../../responses';
 import Movie from './../movies/movieModel';
@@ -29,7 +30,6 @@ router.get('/:id', asyncHandler(async (req, res) => {
 
     const movie = await movieModel.findById(id).exec();
     if (movie) {
-        //console.log('Found movie: ', movie);
         res.status(200).json(movie);
     } else {
         res.status(404).json(NotFound);
@@ -62,14 +62,15 @@ router.post('/:id/reviews', asyncHandler(async (req, res) => {
 
         //This wont execute until both the above promises are fulfilled.
         if (movie) {
-            console.log('foudn movie, adding review');
             const review = { 
                 author: newReview.author,
+                movieId: movie._id,
                 content: newReview.content,
                 created_at: new Date(),
-                updated_at: new Date()
+                rating: newReview.rating
             };
-            
+            console.log('found movie, creating review: ', review);
+            await reviewModel.create(review);
             await movie.addReview(review);
             res.status(201).json(movie);
         }
