@@ -1,5 +1,6 @@
 import express from 'express';
 import movieModel from './movieModel';
+import genreModel from './../genres/genreModel';
 import reviewModel from '../reviews/reviewModel';
 import asyncHandler from 'express-async-handler';
 import { NotFound } from './../../responses';
