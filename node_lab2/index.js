@@ -4,6 +4,7 @@ import express from 'express';
 import moviesRouter from './api/movies';
 import genresRouter from './api/genres';
 import usersRouter from './api/users';
+import reviewsRouter from './api/reviews';
 import castAndCrewRouter from './api/castAndCrew';
 import swaggerUi from 'swagger-ui-express';
 import yaml from 'js-yaml';
@@ -38,6 +39,9 @@ app.use('/api/users', usersRouter);
 
 // Cast and crew
 app.use('/api/castAndCrew', castAndCrewRouter);
+
+
+app.use('/api/reviews', reviewsRouter);
 
 app.listen(port, () => {
   console.info(`Server running at ${port}`);

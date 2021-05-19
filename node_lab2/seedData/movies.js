@@ -47,7 +47,7 @@ export const movies = [
               "logo_path": "/tVPmo07IHhBs4HuilrcV0yujsZ9.png",
               "name": "Walt Disney Animation Studios",
               "origin_country": "US"
-          }
+          },
       ],
       "production_countries": [
           {

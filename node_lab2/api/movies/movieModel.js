@@ -40,7 +40,8 @@ const MovieSchema = new Schema({
     name: { type: String }
   }],
   status: { type: String },
-  tagline: { type: String }
+  tagline: { type: String },
+  certification: { type: String }
 });
 
 MovieSchema.statics.findByMovieDBId = id => {

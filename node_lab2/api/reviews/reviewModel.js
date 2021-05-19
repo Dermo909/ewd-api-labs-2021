@@ -12,4 +12,8 @@ const ReviewSchema = new Schema({
     rating: { type: Number }
 });
 
+ReviewSchema.statics.findByMovieId = id => {
+    return this.findOne({ movieId: id });
+  };
+
 export default mongoose.model('Review', ReviewSchema);

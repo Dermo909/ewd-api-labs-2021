@@ -29,21 +29,13 @@ router.get('/:id', asyncHandler(async (req, res) => {
     const id = req.params.id;
 
     const movie = await movieModel.findById(id).exec();
+    
     if (movie) {
         res.status(200).json(movie);
     } else {
         res.status(404).json(NotFound);
         console.log('Movie not found');
     }
-}));
-
-router.get('/:id/reviews', asyncHandler(async (req, res, next) => {
-    const id = req.params.id;
-    const movie = await movieModel.findByMovieDBId(id).populate('reviews');
-    if (movie)
-        res.status(201).json(movie.reviews);
-    else
-        res.status(404).json(NotFound);
 }));
 
 router.post('/:id/reviews', asyncHandler(async (req, res) => {
@@ -82,7 +74,6 @@ router.post('/:id/reviews', asyncHandler(async (req, res) => {
                 });
                 
               });
-            console.log('Adding review to movie:', id);
             // await movie.addReview(id);
             // res.status(201).json(movie);
         }
