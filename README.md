@@ -15,6 +15,9 @@ All other lab work is contained in the other folders.
 
 The repo can be cloned from : https://github.com/Dermo909/ewd-api-labs-2021.git
 
-Open the each folder in visual studio code and execute the following command in the terminal: npm install
+Open the each folder in visual studio code and execute the following command in the terminal: 
+```bat
+npm install
+```
 
 ## API Configuration
