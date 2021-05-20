@@ -13,6 +13,7 @@ import 'dotenv/config';
 import { ServerError } from './responses';
 import passport from './api/authenticate';
 
+// Demo version
 const app = express();
 const port = process.env.PORT;
 const swaggerDocument = yaml.load(fs.readFileSync('./../movie-api-yaml/swagger.yaml', 'utf8'));
