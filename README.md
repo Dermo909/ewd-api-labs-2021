@@ -102,3 +102,114 @@ export const getMovie = async (id) => {
     }
   };
 ```
+
+## Data Design
+The collections used in the app cover the following:
+User Model(extended from labs): Contains a favourites and watchlist members which each contain a reference to a movie using the ObjectId
+```bat
+const UserSchema = new Schema({
+    username: { type: String, unique: true, required: true },
+    password: { type: String, required: true },
+    favourites: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Movie'
+    }],
+    watchlist: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Movie'
+    }]
+});
+```
+
+Review Model(newly developed): This model contains the details needed to support users adding reviews against movies. The review model contains the various details for a review and a reference to the movie the review is for:
+```bat
+const ReviewSchema = new Schema({
+    author: { type: String },
+    movieId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Movie'},
+    content: { type: String },
+    created_at: {type: Date},
+    rating: { type: Number }
+});
+```
+
+Movie Model(extended from labs): The movie model contains all the details needed to show a movies information on screen. The model contains a reference to a user review:
+```bat
+const MovieSchema = new Schema({
+  id: { type: Number },
+  ... other information
+  reviews: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Review'}],
+	... etc
+});
+```
+
+Genre Model: Contains information regarding genres for movies. Each movie contains a list of genres.
+
+Cast and crew model(newly developed): This model contains the information needed to display cast and crew information for each movie. This model does not contain an object Id for the movie as it changes each time the movie data is seeded in the database. The movie number is used as a lookup in this case.
+```bat
+const CastAndCrewSchema = new Schema({
+    id: { type: Number },
+    cast: [{
+        adult: { type: Boolean },
+        gender: { type: Number },
+        id: { type: Number },
+        known_for_department: { type: String },
+        name: { type: String },
+        original_name: { type: String },
+        profile_path: { type: String },
+        cast_id: { type: Number },
+        character: { type: String },
+        credit_id: { type: String },
+        order: { type: Number }
+    }],
+    crew: [{
+        adult: { type: Boolean },
+        gender: { type: Number },
+        id: { type: Number },
+        known_for_department: { type: String },
+        name: { type: String },
+        original_name: { type: String },
+        profile_path: { type: String },
+        cast_id: { type: Number },
+        character: { type: String },
+        credit_id: { type: String },
+        order: { type: Number }
+    }]
+});
+```
+
+## Integration with React App
+Since the app had already been developed using methods to fetch data from the online movie database, each method was in turn replaced with its equivalent for the API.
+
+An example would be getMovies:
+```bat
+// API 
+export const getMovies = async () => {
+    const res = await fetch(
+        '/api/movies', {
+            headers: {
+                'Authorization': window.localStorage.getItem('token')
+            }
+    }
+    )
+
+    return res.json();
+};
+
+// Non API version
+export const getMovies = () => {
+  return fetch(
+    `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-GB&include_adult=false&page=1`
+  )
+    .then(res => res.json())
+    .then(json => { 
+      json.results.forEach(x => {
+        x.vote_average = convertToPercentage(x.vote_average);
+      });
+
+      return json.results; });
+};
+```
