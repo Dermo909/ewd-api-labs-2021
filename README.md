@@ -215,36 +215,36 @@ export const getMovies = () => {
 ```
 
 ## Features
-Login
-	*** Added authcontext
-	*** Verifying user is logged in before showing movies
+1. Login
+  * Added authcontext
+  * Verifying user is logged in before showing movies
 
-Movies
-	*** Getting movies from api
-	*** seeding DB with cast and crew data
-	*** Getting cast and crew from api
+2. Movies
+  * Getting movies from api
+  * seeding DB with cast and crew data
+  * Getting cast and crew from api
 
-Favourites
-	*** Restrict to logged in folks
-	*** Add movie to favourites
-	*** Show favourites
+3. Favourites
+  * Restrict to logged in folks
+  * Add movie to favourites
+  * Show favourites
 	
-Watchlist	
-	*** Restrict to logged in folks
-	*** Add movie to watchlist
-	*** Show watchlist 
+4. Watchlist	
+  * Restrict to logged in folks
+  * Add movie to watchlist
+  * Show watchlist 
 
-Top rated movies
-	*** restrict to logged in folks
+5. Top rated movies
+  * restrict to logged in folks
 	
-Error handling
-	*** oops/unathorised page
+6. Error handling
+  * oops/unathorised page
 
-Reviews
-	*** Add review model
-	*** Add review(save to DB)
-	*** Show review on movie page
+7. Reviews
+  * Add review model
+  * Add review(save to DB)
+  * Show review on movie page
 	
-Header
-	*** Only show header menu when logged in
-	*** Show logout link when logged in 
+8. Header
+  * Only show header menu when logged in
+  * Show logout link when logged in 
