@@ -49,3 +49,20 @@ npm start
 ```
 
 The app can be stopped by pressing CTRL-C on the terminal window. Select 'Y' then to confirm.
+
+## API design
+The following routes are used in the API:
+| PATH                          | GET                       | POST                          | PUT  | DELETE |
+| ----------------------------- | ------------------------- | ----------------------------- | ---- | ------ |
+| /api/movies                   | Gets a list of movies     | N/A                           | N/A  | N/A    |
+| /api/movies/{movieid}         | Get movie details         | N/A                           | N/A  | N/A    |
+| /api/movies/{movieid}/reviews | N/A                       | Create a new review for Movie | N/A  | N/A    |
+| /api/users                    | Get all users             | Create/login a user           | N/A  | N/A    |
+| /api/{username}/favourites    | Gets users favourites     | Adds a favourite for the user | N/A  | N/A    |
+| /api/{username}/watchlist     | Gets users watchlist      | Adds a movie to watchlist     | N/A  | N/A    |
+| /api/genres                   | Get all genres            | N/A                           | N/A  | N/A    |
+| /api/reviews                  | Get all reviews for movie | N/A                           | N/A  | N/A    |
+| /api/reviews                  | Get all reviews for movie | N/A                           | N/A  | N/A    |
+| /api/reviews                  | Get all reviews for movie | N/A                           | N/A  | N/A    |
+| /api/castAndCrew              | Get cast and crewfor movie| N/A                           | N/A  | N/A    |
+| /api/docs                     | Get swagger docs for API  | N/A                           | N/A  | N/A    |
