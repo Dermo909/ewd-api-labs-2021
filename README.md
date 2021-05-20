@@ -66,3 +66,39 @@ The following routes are used in the API:
 | /api/reviews                  | Get all reviews for movie | N/A                           | N/A  | N/A    |
 | /api/castAndCrew              | Get cast and crewfor movie| N/A                           | N/A  | N/A    |
 | /api/docs                     | Get swagger docs for API  | N/A                           | N/A  | N/A    |
+
+## Security 
+After logging in, a token will be returned to the app which is stored in both localstorage and in the auth context. The isAuthenticated state of auth context will be set to true(if authentication was successful). User name of the logged in user will also be stored in local storage. This is as a helper for the addition of reviews to auto populate the author field.
+
+All routes are protected before the user logs in and if a user attempts to visit one of the routes then they will be presented with an error message and a link to log in. The site header will not contain any links to the routes if there is not a valid logged in user(auth context isAuthenticated state is used)
+```bat
+                {auth.isAuthenticated ? menuOptions.map((opt) => (
+                  <Button
+                    key={opt.label}
+                    color="inherit"
+                    onClick={() => handleMenuSelect(opt)}
+                  >
+                    {opt.label}
+                  </Button>)
+                )  : (<Link to={`/login`} style={{ textDecoration: 'none' }}>Sign In</Link>)
+                }
+```
+
+All Get/Post operations to the API have the users token contained in the header and a switch statement is performed on the result status. All results other than 200(success) will send the user to an 'oops, something went wrong' page with a login link: 
+```bat
+export const getMovie = async (id) => {
+    const url = `/api/movies/${id}`;
+
+    const res = await fetch(
+        url, {
+            headers: {
+                'Authorization': window.localStorage.getItem('token')
+            }
+    }
+    )
+    switch(res.status) {
+        case 200: return res.json();
+        default: window.location.href = '/oops'; break;
+    }
+  };
+```
