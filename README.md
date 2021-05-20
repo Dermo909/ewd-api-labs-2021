@@ -13,11 +13,39 @@ All other lab work is contained in the other folders.
 
 ## Installation Requirements
 
-The repo can be cloned from : https://github.com/Dermo909/ewd-api-labs-2021.git
+The repo can be cloned from: https://github.com/Dermo909/ewd-api-labs-2021.git
+
+This can be achieved using the github desktop application or via a terminal window(in the directory you want the repository created)
+
+```bat
+https://github.com/Dermo909/ewd-api-labs-2021.git
+```
 
 Open the each folder in visual studio code and execute the following command in the terminal: 
 ```bat
 npm install
 ```
+The API requires an installation/instance of mongoDB to function correctly. This can be downloaded directly from:
+```bat
+https://www.mongodb.com/try/download/compass
+```
 
 ## API Configuration
+
+A configuration file will need to be created in the root directory of the node_lab2 folder. This file should be called ``.env```with the following variables in it:
+```bat
+NODE_ENV=development
+PORT=8080
+HOST=Localhost/other
+mongoDB=YourMongoURL
+seedDb=true
+secret=YourJWTSecret
+```
+
+## Startup
+The API can be started using the command 
+```bat
+npm start
+```
+
+The app can be stopped by pressing CTRL-C on the terminal window. Select 'Y' then to confirm.
